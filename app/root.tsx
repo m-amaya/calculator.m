@@ -8,22 +8,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from 'react-router';
+import './theme.css';
 
 import { Theme } from '@radix-ui/themes';
 import type { Route } from './+types/root';
-
-export const links: Route.LinksFunction = () => [
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  {
-    rel: 'preconnect',
-    href: 'https://fonts.gstatic.com',
-    crossOrigin: 'anonymous',
-  },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
-  },
-];
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -37,8 +25,8 @@ export function Layout({ children }: { children: ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        <Theme>{children}</Theme>
+      <body style={{ margin: 0 }}>
+        <Theme appearance="light">{children}</Theme>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -67,11 +55,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <main>
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre>
           <code>{stack}</code>
         </pre>
       )}
