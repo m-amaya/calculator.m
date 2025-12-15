@@ -1,4 +1,4 @@
-import { CalculatorPage } from '~/calculator/page';
+import { CalculatorPage } from '~/pages/calculator/CalculatorPage';
 import type { Route } from './+types/index';
 
 export function meta(_args: Route.MetaArgs) {
