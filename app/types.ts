@@ -8,3 +8,5 @@ export type ThemeSetting = {
   appearance: ThemeAppearance;
   accentColor: ThemeColor;
 };
+
+export type UserSettings = { id: 'user-settings'; theme: ThemeSetting };

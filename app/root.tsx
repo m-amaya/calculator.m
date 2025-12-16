@@ -11,7 +11,13 @@ import {
 import './theme.css';
 
 import { Theme } from '@radix-ui/themes';
+import { addRxPlugin } from 'rxdb';
+import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
 import type { Route } from './+types/root';
+
+if (import.meta.env.DEV) {
+  addRxPlugin(RxDBDevModePlugin);
+}
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
