@@ -1,3 +1,9 @@
+import { Topbar } from '~/components/Topbar';
+
 export const CalculatorPage = () => {
-  return <div>Calculator Page</div>;
+  return (
+    <>
+      <Topbar />
+    </>
+  );
 };
