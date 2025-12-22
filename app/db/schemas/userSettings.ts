@@ -10,11 +10,10 @@ export const userSettingsSchema: RxJsonSchema<UserSettings> = {
   title: 'user settings schema',
   description: 'user settings for the calculator app',
   version: 0,
-  keyCompression: true,
   type: 'object',
   primaryKey: 'id',
   properties: {
-    id: { type: 'string', enum: ['user-settings'] },
+    id: { type: 'string', enum: ['user-settings'], maxLength: 20 },
     theme: {
       type: 'object',
       properties: {

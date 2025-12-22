@@ -1,9 +1,37 @@
 import { Flex, IconButton, Select, Text } from '@radix-ui/themes';
-import { Moon, Sun, SunMoon } from 'lucide-react';
+import {
+  Moon,
+  Sun,
+  SunMoon,
+  type LucideIcon,
+  type LucideProps,
+} from 'lucide-react';
+import { useThemeSettings } from '~/hooks/useThemeSettings';
+import type { ThemeAppearance } from '~/types';
+
+type AppearanceOption = {
+  value: ThemeAppearance;
+  label: string;
+  Icon: LucideIcon;
+};
+
+const commonIconProps: LucideProps = { size: 20, strokeWidth: 1.5 };
+
+const APPEARANCE_OPTIONS: AppearanceOption[] = [
+  { value: 'inherit', label: 'Use system settings', Icon: SunMoon },
+  { value: 'light', label: 'Light', Icon: Sun },
+  { value: 'dark', label: 'Dark', Icon: Moon },
+];
 
 export const AppearanceSwitcher = () => {
+  const { data: themeSettings } = useThemeSettings();
+  const selectedAppearance = themeSettings?.theme.appearance ?? 'inherit';
+  const SelectedAppearanceIcon =
+    APPEARANCE_OPTIONS.find((option) => option.value === selectedAppearance)
+      ?.Icon ?? SunMoon;
+
   return (
-    <Select.Root>
+    <Select.Root defaultValue={selectedAppearance}>
       <Select.Trigger
         radius="full"
         variant="ghost"
@@ -12,49 +40,27 @@ export const AppearanceSwitcher = () => {
           radius="full"
           variant="ghost"
         >
-          <SunMoon
+          <SelectedAppearanceIcon
+            {...commonIconProps}
             size={28}
-            strokeWidth={1.5}
           />
         </IconButton>
       </Select.Trigger>
       <Select.Content position="popper">
-        <Select.Item value="inherit">
-          <Flex
-            align="center"
-            gap="2"
+        {APPEARANCE_OPTIONS.map(({ label, value, Icon }) => (
+          <Select.Item
+            key={value}
+            value={value}
           >
-            <SunMoon
-              size={20}
-              strokeWidth={1.5}
-            />
-            <Text>Use system settings</Text>
-          </Flex>
-        </Select.Item>
-        <Select.Item value="light">
-          <Flex
-            align="center"
-            gap="2"
-          >
-            <Sun
-              size={20}
-              strokeWidth={1.5}
-            />
-            <Text>Light</Text>
-          </Flex>
-        </Select.Item>
-        <Select.Item value="dark">
-          <Flex
-            align="center"
-            gap="2"
-          >
-            <Moon
-              size={20}
-              strokeWidth={1.5}
-            />
-            <Text>Dark</Text>
-          </Flex>
-        </Select.Item>
+            <Flex
+              align="center"
+              gap="2"
+            >
+              <Icon {...commonIconProps} />
+              <Text>{label}</Text>
+            </Flex>
+          </Select.Item>
+        ))}
       </Select.Content>
     </Select.Root>
   );
