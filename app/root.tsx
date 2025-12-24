@@ -10,7 +10,6 @@ import {
 } from 'react-router';
 import './theme.css';
 
-import { Theme } from '@radix-ui/themes';
 import { addRxPlugin } from 'rxdb';
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
 import type { Route } from './+types/root';
@@ -32,7 +31,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <Links />
       </head>
       <body style={{ margin: 0 }}>
-        <Theme appearance="light">{children}</Theme>
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>

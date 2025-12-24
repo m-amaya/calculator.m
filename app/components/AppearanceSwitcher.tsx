@@ -6,8 +6,9 @@ import {
   type LucideIcon,
   type LucideProps,
 } from 'lucide-react';
-import { useThemeSettings } from '~/hooks/useThemeSettings';
+import { useUserSettings } from '~/hooks/useUserSettings';
 import type { ThemeAppearance } from '~/types';
+import { updateAppearanceSetting } from '~/utils/updateAppearanceSetting';
 
 type AppearanceOption = {
   value: ThemeAppearance;
@@ -24,14 +25,21 @@ const APPEARANCE_OPTIONS: AppearanceOption[] = [
 ];
 
 export const AppearanceSwitcher = () => {
-  const { data: themeSettings } = useThemeSettings();
-  const selectedAppearance = themeSettings?.theme.appearance ?? 'inherit';
+  const { data: userSettings } = useUserSettings();
+  const selectedAppearance = userSettings?.theme.appearance ?? 'inherit';
   const SelectedAppearanceIcon =
     APPEARANCE_OPTIONS.find((option) => option.value === selectedAppearance)
       ?.Icon ?? SunMoon;
 
+  const handleAppearanceChange = (value: ThemeAppearance) => {
+    updateAppearanceSetting(value);
+  };
+
   return (
-    <Select.Root defaultValue={selectedAppearance}>
+    <Select.Root
+      defaultValue={selectedAppearance}
+      onValueChange={handleAppearanceChange}
+    >
       <Select.Trigger
         radius="full"
         variant="ghost"

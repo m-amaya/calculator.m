@@ -4,6 +4,7 @@ import { createRxDatabase } from 'rxdb';
 import { getRxStorageLocalstorage } from 'rxdb/plugins/storage-localstorage';
 import { getRxStorageMemory } from 'rxdb/plugins/storage-memory';
 import { wrappedValidateAjvStorage } from 'rxdb/plugins/validate-ajv';
+import { USER_SETTINGS_ID } from '~/constants';
 import {
   userSettingsSchema,
   type UserSettingsCollection,
@@ -30,10 +31,13 @@ await db.addCollections<CalculatorDbCollections>({
 
 // Only upsert default data in browser (localStorage persists, memory doesn't)
 if (isBrowser) {
-  await db.userSettings.upsert({
-    id: 'user-settings',
-    theme: { appearance: 'inherit', accentColor: 'indigo' },
-  });
+  const existingDocs = await db.userSettings.find().exec();
+  if (existingDocs.length === 0) {
+    await db.userSettings.upsert({
+      id: USER_SETTINGS_ID,
+      theme: { appearance: 'inherit', accentColor: 'indigo' },
+    });
+  }
 }
 
 export const userSettingsCollection = createCollection(
